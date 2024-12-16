@@ -6,7 +6,6 @@ import java.util.StringJoiner;
 
 @Getter
 @Setter
-@ToString
 @NoArgsConstructor
 public class SignInDto {
     private String userid;
