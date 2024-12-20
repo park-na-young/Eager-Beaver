@@ -72,9 +72,7 @@ public class BannerService {
             //디렉토리 없으면 생성
             if (!uploadDir.exists()) {
                 boolean created = uploadDir.mkdirs();  // 부모 디렉토리도 생성
-                log.info("디렉토리 생성 시도 결과: {}", created);
                 if (!created) {
-                    log.info("<<<<<<<<<<<<>>>>>>>>>>={}",uploadDir);
                     throw new RuntimeException("디렉토리 생성 실패: " + uploadDir.getAbsolutePath());
                 }
             }
