@@ -19,6 +19,9 @@ public class SecurityConfig {
     @Autowired
     private final JwtTokenProvider jwtTokenProvider;
 
+    @Autowired
+    private final JwtAuthenticationFilter jwtAuthenticationFilter;
+
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity httpSecurity) throws Exception {
         return httpSecurity
@@ -27,6 +30,7 @@ public class SecurityConfig {
                         // Swagger UI와 관련된 경로 허용
                         .requestMatchers("/swagger-ui/**", "/v3/api-docs/**").permitAll()
                         // 인증이 필요한 경로 설정
+                        .requestMatchers("/auth/sign-in").permitAll()
                         .requestMatchers("/auth/**").authenticated()
                         .anyRequest().permitAll())
                 .exceptionHandling()
@@ -41,5 +45,6 @@ public class SecurityConfig {
                 .addFilterBefore(new JwtAuthenticationFilter(jwtTokenProvider), UsernamePasswordAuthenticationFilter.class)
                 .build();
     }
+
 
 }

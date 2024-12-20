@@ -10,12 +10,12 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.*;
-import java.util.Optional;
+import java.util.*;
 
 @Slf4j
 @Service
 public class BannerService {
-    private static final String UPLOAD_DIR = "/path/to/upload/directory";
+    private static final String UPLOAD_DIR = "/Beaver/uploads/image";
     private final UserBannersRepository userBannersRepository;
     private final UserBannerJpaRepository userBannerJpaRepository;
 
@@ -28,6 +28,7 @@ public class BannerService {
 
     /**
      * 이미지 업로드
+     *
      * @param userid
      * @param requestBody
      * @param image
@@ -42,6 +43,7 @@ public class BannerService {
             // UserBanners 객체 생성 및 이미지 경로 설정
             UserBanners userBanners = new UserBanners();
             userBanners.setUserid(userid);
+            userBanners.setImageUrl(imageUrl);
 
             // DB에 이미지 경로 저장
             saveImagePath(userBanners);
@@ -60,13 +62,29 @@ public class BannerService {
      */
     public String saveImage(MultipartFile image) {
         try {
-            // 이미지 파일을 지정된 디렉토리에 저장
+            // 사용자가 업로드한 실제 파일명
             String originalFilename = image.getOriginalFilename();
-            String filePath = UPLOAD_DIR + "/" + originalFilename;
+            String storedFileName = UUID.randomUUID().toString() + "_" + originalFilename;
+
+            // 파일을 저장할 디렉토리 경로 설정 (서버의 업로드 디렉토리)
+            File uploadDir = new File(UPLOAD_DIR);
+
+            //디렉토리 없으면 생성
+            if (!uploadDir.exists()) {
+                boolean created = uploadDir.mkdirs();  // 부모 디렉토리도 생성
+                log.info("디렉토리 생성 시도 결과: {}", created);
+                if (!created) {
+                    log.info("<<<<<<<<<<<<>>>>>>>>>>={}",uploadDir);
+                    throw new RuntimeException("디렉토리 생성 실패: " + uploadDir.getAbsolutePath());
+                }
+            }
+
+            String filePath = uploadDir.getAbsolutePath() + "/" + storedFileName;
             File destinationFile = new File(filePath);
             image.transferTo(destinationFile);
 
-            return "/uploads/banner/" + originalFilename;
+            // 저장된 이미지 파일의 상대 경로 반환
+            return "/uploads/banner/" + storedFileName;
 
         } catch (IOException e) {
             throw new RuntimeException("<< BannerService (saveImage) 이미지 저장 실패", e);
