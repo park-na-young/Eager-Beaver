@@ -9,10 +9,13 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.*;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.context.request.WebRequest;
+import org.springframework.web.context.request.*;
 import org.springframework.web.multipart.MultipartFile;
+
+import java.security.Principal;
 
 @Controller
 @RequiredArgsConstructor
@@ -24,8 +27,8 @@ public class BannerController {
 
     /**
      * 사용자 배너 업로드 API
-     *
-     * @param user
+     * @param webRequest
+     * @param userDetails
      * @param path
      * @param image
      * @return
@@ -37,14 +40,20 @@ public class BannerController {
     @PostMapping("upload/{path}")
     public ResponseEntity<ApiResponseDto> uploadBanner(
             WebRequest webRequest,
-            @AuthenticationPrincipal User user,
-            @PathVariable String path,
-            @RequestParam("image") MultipartFile image
+            @AuthenticationPrincipal UserDetails userDetails,
+            @PathVariable(name ="path") String path,
+            @RequestParam(name = "image") MultipartFile image
     ) {
+        if (userDetails == null) {
+            // 로그인되지 않은 사용자 처리 (예: 401 Unauthorized)
+            return new ResponseEntity<>(ApiResponseDto.error("E007", "User not authenticated"), HttpStatus.UNAUTHORIZED);
+        }
+
         // 요청 데이터 생성
         UserBannersDto requestBody = new UserBannersDto();
-        requestBody.setUserid(user.getUserid());
+        requestBody.setUserid(userDetails.getUsername());
         requestBody.setImageUrl(path);
-        return new ResponseEntity<>(bannerService.uploadImage(user.getUserid(), requestBody, image), HttpStatus.OK);
+        webRequest.setAttribute("requestBody", requestBody, RequestAttributes.SCOPE_REQUEST);
+        return new ResponseEntity<>(bannerService.uploadImage(userDetails.getUsername(), requestBody, image), HttpStatus.OK);
     }
 }

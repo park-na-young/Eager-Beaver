@@ -6,9 +6,11 @@ import org.springframework.security.core.userdetails.*;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.io.Serializable;
+
 @Service
 @RequiredArgsConstructor
-public class CustomUserDetailsService implements UserDetailsService {
+public class CustomUserDetailsService implements UserDetailsService, Serializable {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
 
@@ -28,6 +30,5 @@ public class CustomUserDetailsService implements UserDetailsService {
                 .roles(user.getRole())
                 .build();
     }
-
 
 }
