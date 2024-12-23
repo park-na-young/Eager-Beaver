@@ -3,6 +3,7 @@ package com.tododev.api.service;
 import com.tododev.api.data.UserBanners;
 import com.tododev.api.dto.*;
 import com.tododev.api.repository.*;
+import com.tododev.api.vaildator.FileValidator;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -19,11 +20,16 @@ public class BannerService {
     private final UserBannersRepository userBannersRepository;
     private final UserBannerJpaRepository userBannerJpaRepository;
 
+    private final FileValidator fileValidator;
+
     public BannerService(
             UserBannersRepository userBannersRepository,
-            UserBannerJpaRepository userBannerJpaRepository) {
+            UserBannerJpaRepository userBannerJpaRepository,
+            FileValidator fileValidator
+    ) {
         this.userBannersRepository = userBannersRepository;
         this.userBannerJpaRepository = userBannerJpaRepository;
+        this.fileValidator = fileValidator;
     }
 
     /**
@@ -37,6 +43,8 @@ public class BannerService {
     @Transactional
     public ApiResponseDto uploadImage(String userid, UserBannersDto requestBody, MultipartFile image) {
         try {
+
+            fileValidator.validate(image);
             // 이미지 파일을 지정된 디텍토리에 저장하는 메소드 호출
             String imageUrl = saveImage(image);
 
@@ -47,8 +55,9 @@ public class BannerService {
 
             // DB에 이미지 경로 저장
             saveImagePath(userBanners);
-
-            return ApiResponseDto.success(HttpStatus.OK);
+            return ApiResponseDto.success("배너 이미지가 성공적으로 업로드 되었습니다.", HttpStatus.OK);
+        } catch (IllegalArgumentException e) {
+            return ApiResponseDto.error("E008", "파일 유효성 검사 실패:" + e.getMessage());
         } catch (Exception e) {
             log.error("사용자 정의 배너 이미지 업로드 실패 - {}", requestBody, e);
             return ApiResponseDto.error("EOO3", "이미지 업로드 중 오류가 발생하였습니다.");

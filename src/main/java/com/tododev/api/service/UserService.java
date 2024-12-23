@@ -6,6 +6,7 @@ import com.tododev.api.jwt.*;
 import com.tododev.api.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.*;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.core.Authentication;
@@ -57,7 +58,7 @@ public class UserService {
             // refreshToken redis 저장
 //            RefreshToken redis = new RefreshToken(refreshToken,requestBody.getEmail());
 //            refreshTokenRepository.save(redis);
-            return ApiResponseDto.success(jwtToken);
+            return ApiResponseDto.success("JWT 토큰이 성공적으로 발급되었습니다",jwtToken);
 
 
         } catch (BadCredentialsException e) {
@@ -83,7 +84,7 @@ public class UserService {
         //Password 암호화
         String encodedPassword = passwordEncoder.encode(requestBody.getPassword());
         userRepository.save(requestBody.toEntity(encodedPassword));
-        return ApiResponseDto.success("회원가입이 성공적으로 완료되었습니다.");
+        return ApiResponseDto.success("회원가입이 성공적으로 완료되었습니다.", HttpStatus.OK);
     }
 
 

@@ -131,7 +131,7 @@ public class KakaoService {
         userRepository.save(user);
 
         log.info("<<< KakaoService >>> signUpWithKakao (카카오 회원가입 성공, success!!) : user ={}", user);
-        return ApiResponseDto.success("카카오 회원가입이 완료되었습니다.");
+        return ApiResponseDto.success("카카오 회원가입이 완료되었습니다.",HttpStatus.OK);
     }
 
 }
