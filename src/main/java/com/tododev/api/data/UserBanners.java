@@ -26,6 +26,8 @@ public class UserBanners {
     @Column(name = "dday_date")
     private String ddayDate;
 
+    @Column(name = "dday_content")
+    private String ddayContent;
 
     @Override
     public String toString() {
@@ -34,6 +36,7 @@ public class UserBanners {
                 .add("imageUrl=" + imageUrl)
                 .add("fontColor=" + fontColor)
                 .add("ddayDate=" + ddayDate)
+                .add("ddayContent=" + ddayContent)
                 .toString();
     }
 }
