@@ -15,6 +15,7 @@ public interface UserBannersRepository extends JpaRepository<UserBanners, String
     // save banner
 
 
+
     // update banner
 
 }

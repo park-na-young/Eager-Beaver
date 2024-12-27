@@ -39,7 +39,7 @@ public class UserBannerJpaRepository {
     }
 
     /**
-     * DB UPDATE : table UserBanners
+     * DB UPDATE : table UserBanners - imageUrl
      */
     public void updateImageUrl(
             String userid,
