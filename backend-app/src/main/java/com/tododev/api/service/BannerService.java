@@ -136,7 +136,7 @@ public class BannerService {
             if (userBannersRepository.existsById(userid)) {
                 userBannerJpaRepository.updateDdayContent(userid, requestBody.getDdayDate(), requestBody.getDdayContent());
             } else {
-                userBannerJpaRepository.insertUserBanners(userid, "defaultImage.png", "#000000", LocalDateTime.parse(requestBody.getDdayDate()), requestBody.getDdayContent());
+                userBannerJpaRepository.insertUserBanners(userid, "defaultImage.png", "#000000", requestBody.getParsedOrderDate(), requestBody.getDdayContent());
             }
         } catch (Exception e) {
             log.error("Dday 저장 실패 = {}", requestBody);
