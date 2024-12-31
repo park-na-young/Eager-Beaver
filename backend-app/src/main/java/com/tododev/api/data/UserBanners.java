@@ -18,9 +18,11 @@ public class UserBanners {
     @Column(name = "user_id", nullable = false)
     private String userid;
 
+    @Builder.Default
     @Column(name = "image_url", nullable = false)
     private String imageUrl = "src/main/resources/image/defaultImage.png";
 
+    @Builder.Default
     @Column(name = "font_color", nullable = false)
     private String fontColor = "#000000";
 
