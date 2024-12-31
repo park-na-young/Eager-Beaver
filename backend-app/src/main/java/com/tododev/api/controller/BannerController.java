@@ -37,7 +37,7 @@ public class BannerController {
             summary = "사용자 배너 업로드",
             description = "사용자가 선택한 이미지를 업로드하고 배너 정보를 저장합니다."
     )
-    @PostMapping("upload/{path}")
+    @PostMapping("/upload/{path}")
     public ResponseEntity<ApiResponseDto> uploadBanner(
             WebRequest webRequest,
             @AuthenticationPrincipal UserDetails userDetails,
@@ -68,7 +68,7 @@ public class BannerController {
             summary = "사용자 배너 - Dday 설정 업로드",
             description = "사용자가 설정한 디데이 배너 정보를 저장합니다."
     )
-    @PostMapping("dday")
+    @PostMapping("/dday")
     public ResponseEntity<ApiResponseDto> uploadDate(
             WebRequest webRequest,
             @AuthenticationPrincipal UserDetails userDetails,
@@ -82,6 +82,10 @@ public class BannerController {
         return new ResponseEntity<>(bannerService.saveDdayContent(userDetails.getUsername(), requestBody), HttpStatus.OK);
     }
 
+    @PostMapping("/test")
+    public String testScreen() {
+        return "Hello World! It works!!";
+    }
 
 
 }
