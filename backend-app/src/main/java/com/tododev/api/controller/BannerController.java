@@ -27,6 +27,7 @@ public class BannerController {
 
     /**
      * 사용자 배너 업로드 API
+     *
      * @param webRequest
      * @param userDetails
      * @param path
@@ -41,7 +42,7 @@ public class BannerController {
     public ResponseEntity<ApiResponseDto> uploadBanner(
             WebRequest webRequest,
             @AuthenticationPrincipal UserDetails userDetails,
-            @PathVariable(name ="path") String path,
+            @PathVariable(name = "path") String path,
             @RequestParam(name = "image") MultipartFile image
     ) {
         if (userDetails == null) {
@@ -59,6 +60,7 @@ public class BannerController {
 
     /**
      * 디데이 업로드 API
+     *
      * @param webRequest
      * @param userDetails
      * @param requestBody
@@ -83,9 +85,9 @@ public class BannerController {
     }
 
     @GetMapping("/test")
+    @ResponseBody
     public String testScreen() {
         return "Hello World! It works!!";
     }
-
 
 }
