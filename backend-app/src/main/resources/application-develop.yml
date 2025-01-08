@@ -1,0 +1,27 @@
+server:
+  port : 8080
+
+spring:
+  config:
+    activate:
+      on-profile: develop
+  datasource:
+    url: database-1.cxiy8y2kygro.ap-northeast-2.rds.amazonaws.com
+    username: admin
+    password: admin1248
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  jpa:
+    generate-ddl: true
+    open-in-view: false
+  hibernate:
+    # ex) ddl-auto: none, create-drop, create, update, validate
+    ddl-auto : update
+    show_sql : true
+    format_sql : true
+    use_sql_comments : true
+
+kakao :
+  client_id :
+
+jwt:
+  secret : 9a6e8ff9b33e68f046591efc3d86ca5ad2abecb785ed404006e1cb209ee26c49
