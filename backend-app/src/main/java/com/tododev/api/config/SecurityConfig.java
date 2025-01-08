@@ -30,8 +30,8 @@ public class SecurityConfig {
                         // Swagger UI와 관련된 경로 허용
                         .requestMatchers("/swagger-ui/**", "/v3/api-docs/**").permitAll()
                         // 인증이 필요한 경로 설정
-                        .requestMatchers("/auth/sign-in").permitAll()
-                        .requestMatchers("/auth/**").authenticated()
+                        .requestMatchers("/auth/sign-in").authenticated()
+                        .requestMatchers("/auth/**").permitAll()
                         .anyRequest().permitAll())
                 .exceptionHandling()
                 .authenticationEntryPoint(new Http403ForbiddenEntryPoint())
