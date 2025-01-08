@@ -4,7 +4,7 @@ server:
 spring:
   config:
     activate:
-      on-profile: develop
+      on-profile: prd
   datasource:
     url: ${MYSQL_DATABASE_URL}
     username: ${MYSQL_DATABASE_USERNAME}
