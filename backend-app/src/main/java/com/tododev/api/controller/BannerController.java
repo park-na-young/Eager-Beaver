@@ -82,7 +82,7 @@ public class BannerController {
         return new ResponseEntity<>(bannerService.saveDdayContent(userDetails.getUsername(), requestBody), HttpStatus.OK);
     }
 
-    @PostMapping("/test")
+    @GetMapping("/test")
     public String testScreen() {
         return "Hello World! It works!!";
     }
