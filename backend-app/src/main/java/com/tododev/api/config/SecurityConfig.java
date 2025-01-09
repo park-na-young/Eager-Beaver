@@ -29,10 +29,12 @@ public class SecurityConfig {
                 .authorizeHttpRequests(auth -> auth
                         // Swagger UI와 관련된 경로 허용
                         .requestMatchers("/swagger-ui/**", "/v3/api-docs/**").permitAll()
-                        // 인증이 필요한 경로 설정
-                        .requestMatchers("/auth/sign-in").authenticated()
-                        .requestMatchers("/auth/**").permitAll()
-                        .anyRequest().permitAll())
+                        //로그인 관련 경로 허용
+                        .requestMatchers("/auth/**","/banner/test").permitAll()
+                        //admin계정
+                        .requestMatchers("/admin").hasRole("ADMIN")
+                        //그밖에 모든 경로 인증필요함
+                        .anyRequest().authenticated())
                 .exceptionHandling()
                 .authenticationEntryPoint(new Http403ForbiddenEntryPoint())
                 .and()
