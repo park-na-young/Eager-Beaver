@@ -3,6 +3,7 @@ package com.tododev.api.service;
 import com.tododev.api.data.User;
 import com.tododev.api.dto.*;
 import com.tododev.api.jwt.*;
+import com.tododev.api.redis.*;
 import com.tododev.api.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -26,6 +27,7 @@ public class UserService {
     private final AuthenticationManagerBuilder authenticationManagerBuilder;
     private final JwtTokenProvider jwtTokenProvider;
     private final PasswordEncoder passwordEncoder;
+    private final RefreshTokenRepository refreshTokenRepository;
 
     /**
      * 일반 로그인
@@ -56,8 +58,8 @@ public class UserService {
             String refreshToken = jwtToken.getRefreshToken();
 
             // refreshToken redis 저장
-//            RefreshToken redis = new RefreshToken(refreshToken,requestBody.getEmail());
-//            refreshTokenRepository.save(redis);
+            RefreshToken redis = new RefreshToken(refreshToken,requestBody.getUserid());
+            refreshTokenRepository.save(redis);
             return ApiResponseDto.success("JWT 토큰이 성공적으로 발급되었습니다",jwtToken);
 
 
