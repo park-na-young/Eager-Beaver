@@ -20,7 +20,7 @@ spring:
 
 kakao :
   client_id : ${CLIENT_ID}
-  redirect_uri: http://52.78.148.175:8080/callback
+  redirect_uri: ${REDIRECT_URL}
 
 jwt:
   secret : ${JWT_SECRET}
